@@ -1,4 +1,3 @@
-import './views/hello-world';
 import './views/filter-view';
 import './views/sort-view';
 import './views/list-view';
