@@ -1,7 +1,8 @@
 import {createElement} from '../render';
+import {html} from '../utils';
 
 const getWaypointItemContainerTemplate = () => (
-  '<li class="trip-events__item"></li>'
+  html`<li class="trip-events__item"></li>`
 );
 
 export default class WaypointItemContainerView {

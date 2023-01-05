@@ -1,12 +1,6 @@
-import EventsPresenter from './presenter/events.presenter';
-import {render} from './render';
-import {FilterView} from './view/filter.view';
-
-const eventsContainer = document.querySelector('.trip-events');
-const filtersContainer = document.querySelector('.trip-controls__filters');
-
-render(new FilterView(), filtersContainer);
-
-const eventsPresenter = new EventsPresenter({eventsContainer: eventsContainer});
-
-eventsPresenter.init();
+import './views/hello-world';
+import './views/filter-view';
+import './views/sort-view';
+import './views/list-view';
+import './views/point-view';
+import './views/new-point-editor-view';

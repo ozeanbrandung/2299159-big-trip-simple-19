@@ -22,18 +22,20 @@ export default class EventsPresenter {
   init() {
     //component, container, place
     render(this.sortComponent, this.eventsContainer);
-    render(this.createFormComponent, this.eventsContainer);
     render(this.eventsListComponent, this.eventsContainer);
-    for (let i = 0; i < 3; i++) {
-      this.eventsItemsContainers.push(new WaypointItemContainerView());
-      this.eventComponents.push(new WaypointView());
-      //без getElement инстас класса просто инстанс класса а не элемент!
-      render(this.eventsItemsContainers[i], this.eventsListComponent.getElement());
+    for (let i = 0; i < 5; i++) {
+      this.eventsItemsContainers[i] = new WaypointItemContainerView();
       if (i === 0) {
+        render(this.createFormComponent, this.eventsItemsContainers[i].getElement());
+      } else if (i === 2) {
         render(this.editFormComponent, this.eventsItemsContainers[i].getElement());
       } else {
+        this.eventComponents[i] = new WaypointView();
         render(this.eventComponents[i], this.eventsItemsContainers[i].getElement());
       }
+
+      //без getElement инстас класса просто инстанс класса а не элемент!
+      render(this.eventsItemsContainers[i], this.eventsListComponent.getElement());
     }
   }
 }

@@ -1,7 +1,8 @@
 import {createElement} from '../render';
+import {html} from '../utils';
 
 const getWaypointsListView = () => (
-  `
+  html`
   <ul class="trip-events__list"></ul>
   `
 );
@@ -12,6 +13,7 @@ export default class WaypointsListView {
   }
 
   getElement() {
+
     if (!this.element) {
       this.element = createElement(this.getTemplate());
     }
