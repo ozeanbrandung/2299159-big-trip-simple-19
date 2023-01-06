@@ -7,11 +7,12 @@ import FormEditView from '../view/form-edit.view';
 import WaypointItemContainerView from '../view/waypoint-item-container.view';
 import {OfferView} from '../view/offer.view';
 import {getMockOffersByType} from '../mock/offers';
+import getMockDestinations from '../mock/destinations';
 
 export default class EventsPresenter {
   sortComponent = new SortView();
-  createFormComponent = new FormCreateView();
-  editFormComponent = new FormEditView();
+  //createFormComponent = new FormCreateView();
+  //editFormComponent = new FormEditView();
   eventsListComponent = new WaypointsListView();
   //eventItemContainerComponent = new WaypointItemContainerView();
   eventComponents = [];
@@ -30,9 +31,15 @@ export default class EventsPresenter {
     for (let i = 0; i < this.points.length; i++) {
       this.eventsItemsContainers[i] = new WaypointItemContainerView();
       if (i === 0) {
-        render(this.createFormComponent, this.eventsItemsContainers[i].getElement());
+        const allDestinations = getMockDestinations();
+        const allOffersOfCurrentType = getMockOffersByType(this.points[i].type);
+        const createFormComponent = new FormCreateView(this.points[i], allDestinations, allOffersOfCurrentType);
+        render(createFormComponent, this.eventsItemsContainers[i].getElement());
       } else if (i === 2) {
-        render(this.editFormComponent, this.eventsItemsContainers[i].getElement());
+        const allDestinations = getMockDestinations();
+        const allOffersOfCurrentType = getMockOffersByType(this.points[i].type);
+        const editFormComponent = new FormEditView(this.points[i], allDestinations, allOffersOfCurrentType);
+        render(editFormComponent, this.eventsItemsContainers[i].getElement());
       } else {
         this.eventComponents[i] = new WaypointView({waypoint: this.points[i]});
         render(this.eventComponents[i], this.eventsItemsContainers[i].getElement());

@@ -1,7 +1,6 @@
 import {escape} from 'he';
 import dayjs from 'dayjs';
-// eslint-disable-next-line no-unused-vars
-import {DATE_FORMAT, DATE_FORMAT_SHORT, TIME_FORMAT} from './consts';
+import {DATE_FORMAT_LONG, DATE_FORMAT_SHORT, TIME_FORMAT} from './consts';
 
 /**
  * @param {TemplateStringsArray} strings
@@ -21,3 +20,5 @@ export const getRandomDate = (start, end) => new Date(start.getTime() + Math.ran
 export const humanizeDate = (date) => dayjs(date).format(DATE_FORMAT_SHORT);
 
 export const humanizeTime = (time) => dayjs(time).format(TIME_FORMAT);
+
+export const humanizeDateAndTime = (date) => `${dayjs(date).format(DATE_FORMAT_LONG)} ${dayjs(date).format(TIME_FORMAT)}`;
