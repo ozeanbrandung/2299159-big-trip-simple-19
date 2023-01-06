@@ -6,6 +6,7 @@ import {FormCreateView} from '../view/form-create.view';
 import FormEditView from '../view/form-edit.view';
 import WaypointItemContainerView from '../view/waypoint-item-container.view';
 import {OfferView} from '../view/offer.view';
+import {getMockOffersByType} from '../mock/offers';
 
 export default class EventsPresenter {
   sortComponent = new SortView();
@@ -37,8 +38,12 @@ export default class EventsPresenter {
         render(this.eventComponents[i], this.eventsItemsContainers[i].getElement());
 
         const offersContainer = this.eventComponents[i].getElement().querySelector('.event__selected-offers');
-        this.points[i].offers.forEach((offer) => {
-          render(new OfferView(offer), offersContainer);
+        const allOffersOfCurrentType = getMockOffersByType(this.points[i].type);
+        this.points[i].offers.forEach((offerId) => {
+          const currentOffer = allOffersOfCurrentType.find((item) => item.id === offerId);
+          if (currentOffer) {
+            render(new OfferView(currentOffer), offersContainer);
+          }
         });
       }
 
