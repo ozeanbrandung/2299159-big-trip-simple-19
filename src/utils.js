@@ -1,6 +1,6 @@
 import {escape} from 'he';
 import dayjs from 'dayjs';
-import {DATE_FORMAT_LONG, DATE_FORMAT_SHORT, TIME_FORMAT} from './consts';
+import {DATE_FORMAT_LONG, DATE_FORMAT_SHORT, TIME_FORMAT} from './personal/consts';
 
 /**
  * @param {TemplateStringsArray} strings

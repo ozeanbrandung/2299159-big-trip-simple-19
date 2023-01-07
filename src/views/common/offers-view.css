@@ -1,3 +1,3 @@
-.event__section--offers {
+.event__section--offers:not([hidden]) {
   display: block;
 }

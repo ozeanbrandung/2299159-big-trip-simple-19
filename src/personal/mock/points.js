@@ -1,4 +1,4 @@
-import {getRandomArrayElement, getRandomDate} from '../utils';
+import {getRandomArrayElement, getRandomDate} from '../../utils';
 import getMockDestinations from './destinations';
 
 const mockPoints = [

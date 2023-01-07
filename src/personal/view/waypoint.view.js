@@ -1,5 +1,5 @@
-import {createElement} from '../render';
-import {html, humanizeDate, humanizeTime} from '../utils';
+import {createElement} from '../../render';
+import {html, humanizeDate, humanizeTime} from '../../utils';
 
 const getWaypointTemplate = (waypoint) => {
   const {basePrice, dateFrom, dateTo, destination, type} = waypoint;

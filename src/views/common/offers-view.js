@@ -6,8 +6,7 @@ export default class OffersView extends View {
   constructor() {
     super();
 
-    this.classList.add('event__section');
-    this.classList.add('event__section--offers');
+    this.classList.add('event__section', 'event__section--offers');
   }
 
   /**

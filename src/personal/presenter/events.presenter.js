@@ -1,4 +1,4 @@
-import {render} from '../render';
+import {render} from '../../render';
 import {SortView} from '../view/sort.view';
 import WaypointsListView from '../view/waypoints-list.view';
 import {WaypointView} from '../view/waypoint.view';

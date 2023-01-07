@@ -1,6 +1,6 @@
-import {createElement} from '../render';
+import {createElement} from '../../render';
 // eslint-disable-next-line no-unused-vars
-import {html, humanizeDateAndTime} from '../utils';
+import {html, humanizeDateAndTime} from '../../utils';
 import {TYPES} from '../consts';
 
 const getFormEditTemplate = (waypoint, allDestinationsList, avaliableOffers) => {

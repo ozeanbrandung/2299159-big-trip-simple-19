@@ -5,8 +5,8 @@ export default class DestinationView extends View {
   constructor() {
     super();
 
-    this.classList.add('event__section');
-    this.classList.add('event__section--destination');
+    this.classList.add('event__field-group');
+    this.classList.add('event__field-group--destination');
   }
 
   /**
@@ -14,8 +14,15 @@ export default class DestinationView extends View {
    */
   createHtml() {
     return html`
-      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.</p>
+      <label class="event__label  event__type-output" for="event-destination-1">
+        Flight
+      </label>
+      <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="Chamonix" list="destination-list-1">
+      <datalist id="destination-list-1">
+        <option value="Amsterdam"></option>
+        <option value="Geneva"></option>
+        <option value="Chamonix"></option>
+      </datalist>
     `;
   }
 }
