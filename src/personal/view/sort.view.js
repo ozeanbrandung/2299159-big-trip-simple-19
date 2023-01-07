@@ -1,5 +1,5 @@
-import {createElement} from '../render';
-import {html} from '../utils';
+import {createElement} from '../../render';
+import {html} from '../../utils';
 
 const createSortTemplate = () => (
   html`
