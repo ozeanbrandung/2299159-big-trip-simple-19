@@ -7,10 +7,10 @@ export default class PointAdapter extends Adapter {
   constructor(data = {}) {
     super();
 
-    this.basePrise = data.base_price;
+    this.basePrice = data.base_price;
     this.startDate = data.date_from;
     this.endDate = data.date_to;
-    this.destinationId = data.destination.toString(); //String(data.destination)
+    this.destinationId = data.destination?.toString(); //String(data.destination)
     this.id = data.id;
     //this.offersIds = data.offers.map((offerId) => String(offerId));
     //эта запись полностью аналогична следующей
@@ -19,13 +19,22 @@ export default class PointAdapter extends Adapter {
     this.type = data.type;
   }
 
+  //если предположим нужно для сортировки дату превратить в число то делаем это тут
+  get endDateAsNumber() {
+    return Date.parse(this.endDate);
+  }
+
+  get startDateAsNumber() {
+    return Date.parse(this.startDate);
+  }
+
   /**
    * @override
    * @return {Partial<Point>}
    */
   toJSON() {
     return {
-      'base_price': this.basePrise,
+      'base_price': this.basePrice,
       'date_from': this.startDate,
       'date_to': this.endDate,
       destination: Number(this.destinationId),

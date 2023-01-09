@@ -4,6 +4,12 @@ import './views/list-view';
 import './views/point-view';
 import './views/new-point-editor-view';
 import Store from './store';
+import CollectionModel from './models/collection-model';
+import PointAdapter from './adapters/point-adapter';
+import DestinationAdapter from './adapters/destination-adapter';
+import OffersGroupAdapter from './adapters/offers-group-adapter';
+import {filterCallbackMap, sortCallbackMap} from './maps';
+import {FilterType, SortType} from './enums';
 
 const BASE = 'https://19.ecmascript.pages.academy/big-trip-simple';
 const AUTH = 'Basic bTYXX8IbAEP7HEVju1LK';
@@ -13,41 +19,76 @@ const AUTH = 'Basic bTYXX8IbAEP7HEVju1LK';
  * @type {Store<Point>}
  */
 const pointsStore = new Store(`${BASE}/points`, AUTH);
+const pointsModel = new CollectionModel({
+  store: pointsStore,
+  adapt: (pointItem) => new PointAdapter(pointItem),
+  filter: filterCallbackMap[FilterType.FUTURE],
+  sort: sortCallbackMap[SortType.PRICE]
+});
 
 /**
  *
  * @type {Store<Destination>}
  */
 const destinationsStore = new Store(`${BASE}/destinations`, AUTH);
+const destinationsModel = new CollectionModel({
+  store: destinationsStore,
+  adapt: (destinationItem) => new DestinationAdapter(destinationItem)
+});
 /**
  *
  * @type {Store<OfferGroup>}
  */
 const offersGroupsStore = new Store(`${BASE}/offers`, AUTH);
-
-pointsStore.list().then(async (items) => {
-  const {log} = console;
-
-  log('Points: List', items);
-
-  const date = new Date().toJSON();
-  const item = await pointsStore.add({
-    'base_price': 100,
-    'date_from': date,
-    'date_to': date,
-    'destination': 1,
-    'offers': [],
-    'type': 'bus'
-  });
-
-  log('Points: Add', item);
-
-  item['base_price'] = 200;
-  log('Points: Update', await pointsStore.update(item));
-
-  log('Points: Delete', await pointsStore.delete(item.id));
-
-  log('Destinations: List', await destinationsStore.list());
-
-  log('Offers: List', await offersGroupsStore.list());
+const offersGroupModel = new CollectionModel({
+  store: offersGroupsStore,
+  adapt: (destinationItem) => new OffersGroupAdapter(destinationItem)
 });
+
+const models = [pointsModel, destinationsModel, offersGroupModel];
+
+const {log, table} = console;
+
+//так мы проверяем работу моделей
+Promise.all(
+  models.map((model) => model.ready())
+)
+  .then(async () => {
+    const logEvent = (event) => log(event.type, event.detail);
+    table(pointsModel.list());
+
+    pointsModel.addEventListener('add', logEvent);
+    pointsModel.addEventListener('update', logEvent);
+    pointsModel.addEventListener('delete', logEvent);
+
+    const item = pointsModel.item();
+
+    item.basePrice = 100;
+    item.startDate = new Date().toJSON();
+    item.endDate = item.startDate;
+    item.destinationId = '1';
+    item.offersIds = [];
+    item.type = 'bus';
+
+    const addedItem = await pointsModel.add(item);
+
+    addedItem.basePrice = 200;
+    addedItem.type = 'taxi';
+
+    await pointsModel.update(addedItem);
+    await pointsModel.delete(addedItem.id);
+    // log('Points', pointsModel.listAll());
+    // log('points item idx 125', pointsModel.item(256));
+    // log('Points: findBy', pointsModel.findBy('basePrice', 300));
+    // log('Points: findById', pointsModel.findById('0'));
+    // log('Destinations', destinationsModel.listAll());
+    // log('Points: findIndexBy', pointsModel.findIndexBy('basePrice', 300));
+    // log('Points: findIndexById', pointsModel.findIndexById('0'));
+    // log('destinations item idx 1', destinationsModel.item(1));
+    // log('Offer groups', offersGroupModel.listAll());
+    // log('offer groups item without argument', offersGroupModel.item());
+  })
+
+  .catch((error) => {
+    log(error);
+  });
