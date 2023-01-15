@@ -9,6 +9,11 @@ export const filterCallbackMap = {
 };
 //если коллбэки для фильтрации возвращают true, значит ничо не фильтруется
 
+export const filterTitleMap = {
+  [FilterType.EVERYTHING]: 'Everything',
+  [FilterType.FUTURE]: 'Future'
+};
+
 /**
  * @type {Record<string,SortCallback<PointAdapter>>}
  */
@@ -20,6 +25,21 @@ export const sortCallbackMap = {
   [SortType.OFFERS]: () => 0
 };
 //если коллбэки для сортировки возвращают 0, значит ничо не сортируется
+export const sortTitleMap = {
+  [SortType.DAY]: 'Day',
+  [SortType.EVENT]: 'Event',
+  [SortType.TIME]: 'Time',
+  [SortType.PRICE]: 'Price',
+  [SortType.OFFERS]: 'Offers'
+};
+
+export const sortDisabilityMap = {
+  [SortType.DAY]: false,
+  [SortType.EVENT]: true,
+  [SortType.TIME]: true,
+  [SortType.PRICE]: false,
+  [SortType.OFFERS]: true
+};
 
 export const pointTitleMap = {
   [PointType.TAXI]: 'Taxi',
