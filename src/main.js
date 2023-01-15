@@ -5,6 +5,7 @@ import ListView from './views/list-view';
 import FilterView from './views/filter-view';
 import './views/point-view';
 import './views/new-point-editor-view';
+import NewPointEditorView from './views/new-point-editor-view';
 import Store from './store';
 import CollectionModel from './models/collection-model';
 import PointAdapter from './adapters/point-adapter';
@@ -15,6 +16,8 @@ import {FilterType, SortType} from './enums';
 import ListPresenter from './presenters/list-presenter';
 import FilterPresenter from './presenters/filter-presenter';
 import SortPresenter from './presenters/sort-presenter';
+import NewPointButtonPresenter from './presenters/new-point-button-presenter';
+import NewPointEditorPresenter from './presenters/new-point-editor-presenter';
 
 const BASE = 'https://19.ecmascript.pages.academy/big-trip-simple';
 const AUTH = 'Basic bTYXX8IbAEP7HEVju1LK';
@@ -57,14 +60,20 @@ const {log /*, table */} = console;
 const listView = document.querySelector(String(ListView));
 const filterView = document.querySelector(String(FilterView));
 const sortView = document.querySelector(String(SortView));
+const newPointButtonView = document.querySelector('.trip-main__event-add-btn');
+const newPointEditorView = new NewPointEditorView(listView);
 
 Promise.all(
   models.map((model) => model.ready())
 )
   .then(async () => {
-    new FilterPresenter(filterView, models);
+    //TODO: при инициировании презентеров порядок имеет роль!
     new ListPresenter(listView, models);
+    new FilterPresenter(filterView, models);
     new SortPresenter(sortView, models);
+    new NewPointButtonPresenter(newPointButtonView, models);
+    //TODO: обязательно должен инициализироваться после листа!
+    new NewPointEditorPresenter(newPointEditorView, models);
     //так мы проверяем работу моделей
     // const logEvent = (event) => log(event.type, event.detail);
     // table(pointsModel.list());

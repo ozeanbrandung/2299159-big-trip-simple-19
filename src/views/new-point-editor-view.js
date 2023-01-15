@@ -7,11 +7,19 @@ import DestinationDetailsView from './common/destination-details-view';
 import DatesView from './common/dates-view';
 import BasePriceView from './common/base-price-view';
 
+/**
+ * @implements {EventListenerObject}
+ */
 export default class NewPointEditorView extends View {
-  constructor() {
+  constructor(listView) {
     super();
 
     this.classList.add('trip-events__item');
+
+    /**
+     * @type {ListView}
+     */
+    this.listView = listView;
   }
 
   /**
@@ -34,6 +42,34 @@ export default class NewPointEditorView extends View {
         </section>
       </form>
     `;
+  }
+
+  open() {
+    //append (в конец), appendChild, prepend (в начало), before, after
+    //this.listView.appendChild(this.view);
+    this.listView.prepend(this);
+    //мы передаем кароч не функцию а обхект у которого его метод handleEvent метод будет вызван автоматически
+    document.addEventListener('keydown', this);
+  }
+
+  close(notify = true) {
+    this.remove();
+    document.removeEventListener('keydown', this);
+    if (notify) {
+      //ты тут this. пропустила и event нихрена не диспачился
+      this.dispatchEvent(new CustomEvent('close'));
+    }
+  }
+
+  /**
+   * @param {KeyboardEvent} event
+   */
+  handleEvent(event) {
+    //console.log('объект в качестве обр события')
+    if(event.key === 'Escape') {
+      this.close();
+      //this.reset();
+    }
   }
 }
 
