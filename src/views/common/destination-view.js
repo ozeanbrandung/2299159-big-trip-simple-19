@@ -15,7 +15,7 @@ export default class DestinationView extends View {
   createHtml() {
     return html`
       <label class="event__label  event__type-output" for="event-destination-1">
-        Flight
+<!--        Flight-->
       </label>
       <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination"  list="destination-list-1">
       <datalist id="destination-list-1">
@@ -42,6 +42,24 @@ export default class DestinationView extends View {
     const container = this.querySelector('#destination-list-1');
     const optionsHtml = states.map(this.createOptionHtml).join('');
     container.insertAdjacentHTML('afterbegin', optionsHtml);
+  }
+
+  /**
+   * @param {string} value
+   */
+  setValue(value) {
+    this.querySelector('input').value = value;
+  }
+
+  getValue() {
+    return this.querySelector('input').value;
+  }
+
+  /**
+   * @param {string} value
+   */
+  setLabel(label) {
+    this.querySelector('label').textContent = label;
   }
 }
 
