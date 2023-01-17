@@ -20,6 +20,7 @@ export default class NewPointEditorPresenter extends Presenter {
     const allDestinations = this.destinationsModel.listAll();
     const destinationOptions = allDestinations.map((destination) => ({value: destination.name, title: ''}));
     this.view.destinationView.setOptions(destinationOptions);
+    this.view.destinationView.addEventListener('input', this.handleDestinationViewInput.bind(this));
 
     this.view.addEventListener('submit', this.handleViewSubmit.bind(this));
     this.view.addEventListener('close', this.handleViewClose.bind(this));
@@ -33,7 +34,7 @@ export default class NewPointEditorPresenter extends Presenter {
       //окгда не передаем ничего возвращается просто пустой объект с нужными полями
       const point = this.pointsModel.item();
       //по умолчанию для всех точек маршрута
-      point.destinationId = this.destinationsModel.item(0).id;
+      point.destinationId = this.destinationsModel.item(5).id;
       point.type = PointType.TAXI;
       point.startDate = new Date().toISOString(); //new Date().toJSON(); идентичны
       point.endDate = new Date().toISOString();
@@ -87,6 +88,7 @@ export default class NewPointEditorPresenter extends Presenter {
     this.view.pointTypeView.setValue(destination.name);
     // TODO: Обновить список предложений
     this.updateOffersView(point.offersIds);
+    this.updateDestinationDetailsView(destination);
   }
 
   /**
@@ -110,5 +112,22 @@ export default class NewPointEditorPresenter extends Presenter {
     this.view.offersView.hidden = !options.length;
 
     this.view.offersView.setOptions(options);
+  }
+
+  /**
+   * @param {DestinationAdapter} [destination]
+   */
+  updateDestinationDetailsView(destination) {
+    this.view.destinationDetailsView.hidden = !destination;
+
+    if (destination) {
+      this.view.destinationDetailsView.setContent(destination);
+    }
+  }
+
+  handleDestinationViewInput() {
+    const destinationName = this.view.destinationView.getValue();
+    const destination = this.destinationsModel.findBy('name', destinationName);
+    this.updateDestinationDetailsView(destination);
   }
 }

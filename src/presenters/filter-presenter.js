@@ -31,6 +31,10 @@ export default class FilterPresenter extends Presenter {
   handleViewChange() {
     const filterType = this.view.getValue();
     //console.log(filterType)
+    //Вызов navigate() нужно сделать перед setFilter() и setSort()
+    // Тогда редактор сможет произвести закрытие до того, как список, реагирующий на смену фильтра и сортировки, перерисуется.
+    // а до этого происходило закрытие формы как сайд-эффект из-за того что лист перерисовывался (и при этом путь не менялся)
+    this.navigate('/');
     this.pointsModel.setFilter(filterCallbackMap[filterType]);
   }
 }
