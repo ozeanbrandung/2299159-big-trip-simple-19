@@ -1,0 +1,3 @@
+.event__type-wrapper:focus-within .event__type-btn {
+  outline: 1px solid blue;
+}
