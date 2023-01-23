@@ -33,7 +33,9 @@ export default class SortPresenter extends Presenter {
     const sortType = this.view.getValue();
 
     //console.log(sortType)
-
+    //Вызов navigate() нужно сделать перед setFilter() и setSort()
+    // Тогда редактор сможет произвести закрытие до того, как список, реагирующий на смену фильтра и сортировки, перерисуется.
+    this.navigate('/');
     this.pointsModel.setSort(sortCallbackMap[sortType]);
   }
 }
