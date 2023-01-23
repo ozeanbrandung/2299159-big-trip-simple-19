@@ -179,11 +179,18 @@ export default class CollectionModel extends Model {
    * @param {string} id
    */
   async delete(id) {
-    const itemToDelete = this.#items.find((item) => item.id === id);
-    const detail = {deletedItem: this.#adapt(itemToDelete)};
+    //первым делом удаляем потому что если удаления не произойдет код остановится
     await this.#store.delete(id);
+    //const itemToDelete = this.#items.find((item) => item.id === id);
+    //зачем код дублировать если мы написали метод для этого???
+    const itemToDelete = this.findById(id);
+    //const detail = {deletedItem: this.#adapt(itemToDelete)};
+    const detail = this.#adapt(itemToDelete);
     this.#items = this.#items.filter((item) => item.id !== id);
+    //еще один способ:
+    //this.#items.splice(index, 1);
     this.dispatchEvent(new CustomEvent('delete', {detail}));
+
     return detail;
   }
 }

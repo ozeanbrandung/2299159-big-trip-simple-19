@@ -17,8 +17,20 @@ export const getRandomArrayElement = (items) => items[Math.floor(Math.random() *
 
 export const getRandomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
+/**
+ * @param {string} value
+ */
 export const humanizeDate = (date) => dayjs(date).format(DATE_FORMAT_SHORT);
 
+/**
+ * @param {string} value
+ */
 export const humanizeTime = (time) => dayjs(time).format(TIME_FORMAT);
 
 export const humanizeDateAndTime = (date) => `${dayjs(date).format(DATE_FORMAT_LONG)} ${dayjs(date).format(TIME_FORMAT)}`;
+
+//отображение чисел в разных языках отличается так что нужно приводить к одному формату если работаешь с несколькими языками
+/**
+ * @param {number} value
+ */
+export const formatNumber = (value) => value.toLocaleString('en');
