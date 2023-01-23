@@ -42,7 +42,7 @@ export default class DestinationDetailsView extends View {
   setContent(state) {
     const picturesHtml = state.pictures.map(this.createPictureHtml).join('');
     this.querySelector('.event__photos-tape').innerHTML = picturesHtml;
-    this.querySelector('.event__destination-description').textContent = state.textContent;
+    this.querySelector('.event__destination-description').textContent = state.decription;
   }
 }
 

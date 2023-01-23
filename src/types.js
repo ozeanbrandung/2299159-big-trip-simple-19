@@ -117,3 +117,8 @@
  * @prop {boolean} checked
  */
 
+/**
+ * @typedef {import('flatpickr/dist/types/instance').Instance} Calendar
+ * @typedef {import('flatpickr/dist/types/options').Options} CalendarConfig
+ */
+

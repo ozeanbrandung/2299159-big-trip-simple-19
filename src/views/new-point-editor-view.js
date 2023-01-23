@@ -37,6 +37,16 @@ export default class NewPointEditorView extends View {
      * @type {DestinationDetailsView}
      */
     this.destinationDetailsView = this.querySelector(String(DestinationDetailsView));
+
+    /**
+     * @type {DatesView}
+     */
+    this.datesView = this.querySelector(String(DatesView));
+
+    /**
+     * @type {BasePriceView}
+     */
+    this.basePriceView = this.querySelector(String(BasePriceView));
   }
 
   /**
@@ -44,7 +54,7 @@ export default class NewPointEditorView extends View {
    */
   createHtml() {
     return html`
-      <form class="event event--edit" action="#" method="post">
+      <form class="event event--edit" action="#" method="post" novalidate>
         <header class="event__header">
           <${PointTypeView}></${PointTypeView}>
           <${DestinationView}></${DestinationView}>
@@ -64,6 +74,7 @@ export default class NewPointEditorView extends View {
   open() {
     //append (в конец), appendChild, prepend (в начало), before, after
     //this.listView.appendChild(this.view);
+    this.datesView.createCalendars();
     this.listView.prepend(this);
     //мы передаем кароч не функцию а обхект у которого его метод handleEvent метод будет вызван автоматически
     document.addEventListener('keydown', this);
@@ -71,6 +82,7 @@ export default class NewPointEditorView extends View {
 
   close(notify = true) {
     this.remove();
+    this.datesView.destroyCalenders();
     document.removeEventListener('keydown', this);
     if (notify) {
       //ты тут this. пропустила и event нихрена не диспачился
