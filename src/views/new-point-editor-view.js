@@ -20,6 +20,11 @@ export default class NewPointEditorView extends View {
      * @type {ListView}
      */
     this.listView = listView;
+    /**
+     * @type {PointTypeView}
+     */
+    this.pointTypeView = this.querySelector(String(PointTypeView));
+    this.destinationView = this.querySelector(String(DestinationView));
   }
 
   /**
