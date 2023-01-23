@@ -1,6 +1,8 @@
 import './views/filter-view';
 import './views/sort-view';
+import SortView from './views/sort-view';
 import ListView from './views/list-view';
+import FilterView from './views/filter-view';
 import './views/point-view';
 import './views/new-point-editor-view';
 import Store from './store';
@@ -11,6 +13,8 @@ import OffersGroupAdapter from './adapters/offers-group-adapter';
 import {filterCallbackMap, sortCallbackMap} from './maps';
 import {FilterType, SortType} from './enums';
 import ListPresenter from './presenters/list-presenter';
+import FilterPresenter from './presenters/filter-presenter';
+import SortPresenter from './presenters/sort-presenter';
 
 const BASE = 'https://19.ecmascript.pages.academy/big-trip-simple';
 const AUTH = 'Basic bTYXX8IbAEP7HEVju1LK';
@@ -51,12 +55,16 @@ const models = [pointsModel, destinationsModel, offersGroupModel];
 const {log /*, table */} = console;
 
 const listView = document.querySelector(String(ListView));
+const filterView = document.querySelector(String(FilterView));
+const sortView = document.querySelector(String(SortView));
 
 Promise.all(
   models.map((model) => model.ready())
 )
   .then(async () => {
+    new FilterPresenter(filterView, models);
     new ListPresenter(listView, models);
+    new SortPresenter(sortView, models);
     //так мы проверяем работу моделей
     // const logEvent = (event) => log(event.type, event.detail);
     // table(pointsModel.list());

@@ -34,3 +34,9 @@ export const humanizeDateAndTime = (date) => `${dayjs(date).format(DATE_FORMAT_L
  * @param {number} value
  */
 export const formatNumber = (value) => value.toLocaleString('en');
+
+/**
+ * @param {Object} target
+ * @param {*} value
+ */
+export const findKey = (target, value) => Object.keys(target).find((key) => target[key] === value);
