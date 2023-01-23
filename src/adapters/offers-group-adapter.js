@@ -2,29 +2,20 @@ import Adapter from './adapter';
 
 export default class OffersGroupAdapter extends Adapter {
   /**
-   * @param {Partial<OfferGroup>} data
+   * @param {OfferGroup} data //partial тут тоже не нужен - все св-ва объекта тут обязательны
    */
-  constructor(data = {}) {
+  constructor(data) {
     super();
 
-    this.type = data.type;
-    //а надо ли прайс в стринг???
-    this.offers = data.offers.map((offer) => ({id: String(offer.id), title: offer.title, price: String(offer.price)}));
+    //все равно тип должен быть уникальным так что мы можем пренебречь тем что это именно тип и назвать это id
+    this.id = data.type;
+    //а надо ли прайс в стринг??? ОТВЕТ: нет а вдруг нам сумму придется считать
+    //this.offers = data.offers.map((offer) => ({id: String(offer.id), title: offer.title, price: String(offer.price)}));
+    this.offers = data.offers.map((offer) => ({
+      ...offer,
+      id: String(offer.id)
+    }));
   }
 
-  /**
-   * @override
-   * @return {Partial<OfferGroup>}
-   */
-  // toJSON() {
-  //   return {
-  //     'base_price': this.basePrise,
-  //     'date_from': this.startDate,
-  //     'date_to': this.endDate,
-  //     destination: Number(this.destinationId),
-  //     id: this.id,
-  //     offers: this.offersIds.map(Number);
-  //     type: this.type,
-  //   };
-  // }
+  //toJSON нам тоже тут не нужен - на сервер мы такие объекты не будем отправлять
 }

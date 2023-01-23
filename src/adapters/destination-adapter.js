@@ -2,30 +2,18 @@ import Adapter from './adapter';
 
 export default class DestinationAdapter extends Adapter {
   /**
-   * @param {Partial<Destination>} data
+   * @param {Destination} data //partial означал что может ожидаться частичный объект, а тут все св-ва обязательны
    */
-  constructor(data = {}) {
+  constructor(data ) {
     super();
 
     this.id = String(data.id);
     this.decription = data.description;
     this.name = data.name;
-    this.pictures = data.pictures;
+    //чтобы исключить возможность изменения данных - мутабельности - надо не по ссылке передать массив, а завести новый
+    //this.pictures = data.pictures;
+    this.pictures = data.pictures.map((picture) => ({...picture}));
   }
 
-  // /**
-  //  * @override
-  //  * @return {Partial<Point>}
-  //  */
-  // toJSON() {
-  //   return {
-  //     'base_price': this.basePrise,
-  //     'date_from': this.startDate,
-  //     'date_to': this.endDate,
-  //     destination: Number(this.destinationId),
-  //     id: this.id,
-  //     offers: this.offersIds.map(Number);
-  //     type: this.type,
-  //   };
-  // }
+  //обратная конвертация не нужна мы никуда на сервер дестинэйшены не отправляем так что не надо toJSON
 }
