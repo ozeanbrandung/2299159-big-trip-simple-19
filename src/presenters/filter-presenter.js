@@ -34,3 +34,5 @@ export default class FilterPresenter extends Presenter {
     this.pointsModel.setFilter(filterCallbackMap[filterType]);
   }
 }
+
+//something
