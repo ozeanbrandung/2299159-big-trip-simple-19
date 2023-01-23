@@ -21,10 +21,10 @@ export default class PointTypeView extends RadioGroupView {
     //событие клик мы не сможем использовать потому что при перемещении с клавиатуры оно оказывается тоже будет срабатывать так что
     //нам придется использовать другое событие
     this.addEventListener('pointerup', this.handlePointerUp);
+    this.addEventListener('pointerdown', this.handlePointerDown);
   }
 
   /**
-   * @override
    * @param {string} value
    */
   setValue(value) {
@@ -120,11 +120,11 @@ export default class PointTypeView extends RadioGroupView {
           type="radio"
           name="event-type"
           value="${state.value}"
-          tabindex="-1"
         >
         <label
           class="event__type-label  event__type-label--${state.value}"
           for="event-type-${state.value}-1"
+          tabindex="-1"
         >
           ${state.title}
         </label>
@@ -138,6 +138,7 @@ export default class PointTypeView extends RadioGroupView {
   setOptions(states) {
     const optionsHtml = states.map(this.createOptionHtml).join('');
     this.querySelector('legend').insertAdjacentHTML('afterend', optionsHtml);
+    //this.querySelector('fieldset').insertAdjacentHTML('beforeend', optionsHtml);
   }
 
   open(){
@@ -163,6 +164,16 @@ export default class PointTypeView extends RadioGroupView {
    * @param {Event & {target: HTMLInputElement}} event
    */
   handleChange(event) {
+    //эту штуку мы добавили от бага, который возникал при открытии дропдауна - исчезало выделение выбранных оферов
+    if(event.target.type === 'checkbox') {
+      //любой стоящий в очереди на событие чендж не получит его
+      return event.stopImmediatePropagation();
+    }
+    //debugger
+    //this.setValue(this.getValue())
+    //TODO: при тапе почему-то кароч не работает вся эта история
+    //TODO: change срабатывает прямо при открытии дропдауна - и затем сюда приходит event.target.value === 'on'
+    //TODO: а при клике не происходит вообще ничего)))
     this.setValue(event.target.value);
   }
 
@@ -197,8 +208,19 @@ export default class PointTypeView extends RadioGroupView {
   handlePointerUp(event) {
     //querySelector делает поиск вниз по дереву, а делает поиск вверх по дереву
     if (event.target.closest('.event__type-item')) {
-      //this.setValue(event.target.value)
+      //TODO: и еще забавно что без нижней строки change происходит а с нижней нет!
+      //this.setValue(event.target.closest('.event__type-item').querySelector('input').value)
       this.close();
+    }
+  }
+
+  //TODO: добавила потому что выбор в выпадашке с тачпада не работает!
+  handlePointerDown(event) {
+    const elem = event.target.closest('.event__type-item');
+    if (elem) {
+      this.setValue(elem.querySelector('input').value);
+      //TODO: а еще почему-то change не происходит тут при тапах, а при клике и перемещении с табами происходит
+      this.dispatchEvent(new Event('change'));
     }
   }
 }
