@@ -1,7 +1,7 @@
 import Presenter from './presenter';
 import {pointTitleMap} from '../maps';
 import {PointType} from '../enums';
-import {formatNumber} from '../utils';
+import {formatNumber, humanizeDateAndTime} from '../utils';
 
 /**,
  * @extends {Presenter<NewPointEditorView>},
@@ -16,11 +16,22 @@ export default class NewPointEditorPresenter extends Presenter {
     this.view.pointTypeView.setOptions(pointTypeOptions);
     //this.view.pointTypeView.setValue(PointType.TRAIN);
     this.view.pointTypeView.addEventListener('change', this.handlePointTypeViewChange.bind(this));
+    //this.view.datesView.addEventListener('change', this.handleDatesViewChange.bind(this));
 
     const allDestinations = this.destinationsModel.listAll();
     const destinationOptions = allDestinations.map((destination) => ({value: destination.name, title: ''}));
     this.view.destinationView.setOptions(destinationOptions);
     this.view.destinationView.addEventListener('input', this.handleDestinationViewInput.bind(this));
+
+    this.view.datesView.setConfig({
+      formatDate: humanizeDateAndTime,
+      // Формат даты по ТЗ
+      //TODO: вот это у тебя не получилось самостоятельно!
+      locale: {firstDayOfWeek: 1},
+      // Неделя начинается в понедельник
+      'time_24hr': true,
+      // 24 часа вместо AM/PM
+    });
 
     this.view.addEventListener('submit', this.handleViewSubmit.bind(this));
     this.view.addEventListener('close', this.handleViewClose.bind(this));
@@ -41,8 +52,9 @@ export default class NewPointEditorPresenter extends Presenter {
       point.basePrice = 100;
       //офферы пропускаем они не выбраны у новой точки маршрута
       //point.offers = [];
-      this.updateView(point);
       this.view.open();
+      //порядок тут важен: в open инициализируется календарь а без не него некуда сетать даты
+      this.updateView(point);
       //в качестве обработчика событий мы можем передать не только функцию но и объект у которого есть определенный метод handleEvent
     } else {
       //console.log('закрыть редактор')
@@ -85,7 +97,9 @@ export default class NewPointEditorPresenter extends Presenter {
     const destination = this.destinationsModel.findById(point.destinationId);
     this.view.pointTypeView.setValue(point.type);
     this.view.destinationView.setLabel(pointTitleMap[point.type]);
-    this.view.pointTypeView.setValue(destination.name);
+    this.view.destinationView.setValue(destination.name);
+    this.view.datesView.setValues([point.startDate, point.endDate]);
+    this.view.basePriceView.setValue(point.basePrice);
     // TODO: Обновить список предложений
     this.updateOffersView(point.offersIds);
     this.updateDestinationDetailsView(destination);
@@ -130,4 +144,9 @@ export default class NewPointEditorPresenter extends Presenter {
     const destination = this.destinationsModel.findBy('name', destinationName);
     this.updateDestinationDetailsView(destination);
   }
+
+  //handleDatesViewChange(event) {
+  // const date = event.target.value.toISOString();
+  // debugger
+  //}
 }
