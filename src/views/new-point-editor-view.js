@@ -6,6 +6,8 @@ import DestinationView from './common/destination-view';
 import DestinationDetailsView from './common/destination-details-view';
 import DatesView from './common/dates-view';
 import BasePriceView from './common/base-price-view';
+import {saveButtonTextMap} from '../maps';
+import UiBlockerView from './ui-blocker-view';
 
 /**
  * @implements {EventListenerObject}
@@ -47,6 +49,8 @@ export default class NewPointEditorView extends View {
      * @type {BasePriceView}
      */
     this.basePriceView = this.querySelector(String(BasePriceView));
+
+    this.uiBlockerView = new UiBlockerView();
   }
 
   /**
@@ -88,6 +92,18 @@ export default class NewPointEditorView extends View {
       //ты тут this. пропустила и event нихрена не диспачился
       this.dispatchEvent(new CustomEvent('close'));
     }
+  }
+
+  /**
+   * @param {boolean} flag
+   */
+  awaitSave(flag) {
+    const text = saveButtonTextMap[Number(flag)];
+    //console.log(text)
+
+    this.querySelector('.event__save-btn').textContent = text;
+
+    this.uiBlockerView.toggle(flag);
   }
 
   /**

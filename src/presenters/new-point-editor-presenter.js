@@ -2,6 +2,7 @@ import Presenter from './presenter';
 import {pointTitleMap} from '../maps';
 import {PointType} from '../enums';
 import {formatNumber, humanizeDateAndTime} from '../utils';
+//import PointAdapter from '../adapters/point-adapter';
 
 /**,
  * @extends {Presenter<NewPointEditorView>},
@@ -67,8 +68,53 @@ export default class NewPointEditorPresenter extends Presenter {
   /**
    * @param {SubmitEvent} event
    */
-  handleViewSubmit(event) {
+  async handleViewSubmit(event) {
     event.preventDefault();
+    //TODO эта фигня не срабатывает потому что await save это не метод uiBlocker-а
+    this.view.awaitSave(true);
+    try {
+      //console.log(event)
+
+      // const data = new FormData(event.target);
+      // const dataObj = {};
+      // [...data.entries()].map(([key, value]) => (
+      //   dataObj[key] = value
+      // ));
+      // const adapted = new PointAdapter(dataObj);
+      // console.log(adapted);
+
+      const data = this.pointsModel.item();
+      const destinationName = this.view.destinationView.getValue();
+      //по имени находим destination из существующих значений - вдруг пользоватеь вообще
+      //что-то несуществующее накликал?
+      const destination = this.destinationsModel.findBy('name', destinationName);
+      const [startDate, endDate] = this.view.datesView.getValues();
+      this.view.pointTypeView.getValue();
+
+      data.type = this.view.pointTypeView.getValue();
+      //так как мы не знаем накликал ли пользователь существующее значение или вообще чот левое
+      //то destination может и не быть вообще - ставим вопросик на этот случай
+      data.destinationId = destination?.id;
+      data.startDate = startDate;
+      data.endDate = endDate;
+      data.basePrice = this.view.basePriceView.getValue();
+      data.offersIds = this.view.offersView.getValues();
+
+      await this.pointsModel.add(data);
+
+      this.view.close();
+      //this.pointsModel.add()
+      //собрать данные и передать
+      //после добавление обновить лист надо
+      //для этого нам нужно подписаться на событие добавления чего-то в лист
+      //await this.pointsModel.add
+    } catch (exception) {
+      this.view.uiBlockerView.shake();
+      // eslint-disable-next-line no-console
+      console.log(exception);
+    }
+
+    this.view.awaitSave(false);
   }
 
   handleViewReset() {
