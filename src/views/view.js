@@ -1,3 +1,5 @@
+import './view.css';
+
 //базовое представление которое будут наследовать все другие представления
 //ну типа вообще у каждого компонента есть методы которые стандартны и везде повторяются
 //поэтому в класс выносим и наследуем
@@ -16,6 +18,14 @@ export default class View extends HTMLElement {
     void arguments;
 
     return '';
+  }
+
+  shake() {
+    this.classList.add('shake');
+    this.addEventListener('animationend', ()=> {
+      this.classList.remove('shake');
+      //как только событие произойдет один раз, будет автоматически отписка осуществлена от события
+    }, {once: true});
   }
 
   static get localName() {

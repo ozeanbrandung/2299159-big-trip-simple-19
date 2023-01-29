@@ -1,4 +1,4 @@
-import {FilterType, PointType, SortType} from './enums';
+import {ButtonState, FilterType, PointType, SortType} from './enums';
 
 /**
  * @type {Record<string,FilterCallback<PointAdapter>>}
@@ -64,3 +64,8 @@ export const pointIconsMap = Object.fromEntries(
     (value) => [value, `img/icons/${value}.png`]
   )
 );
+
+export const saveButtonTextMap = {
+  [ButtonState.DEFAULT]: 'Save',
+  [ButtonState.PRESSED]: 'Saving...'
+};
