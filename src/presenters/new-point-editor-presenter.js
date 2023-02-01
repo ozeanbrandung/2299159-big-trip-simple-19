@@ -4,8 +4,15 @@ import {PointType} from '../enums';
 import {formatNumber, humanizeDateAndTime} from '../utils';
 //import PointAdapter from '../adapters/point-adapter';
 
+//меняем вот это
 /**,
  * @extends {Presenter<NewPointEditorView>},
+ */
+
+//на вот это (делаем дженерик):
+/**
+ * @template {NewPointEditorView} View
+ * @extends {Presenter<View>}
  */
 export default class NewPointEditorPresenter extends Presenter {
   constructor() {
@@ -37,6 +44,7 @@ export default class NewPointEditorPresenter extends Presenter {
     this.view.addEventListener('submit', this.handleViewSubmit.bind(this));
     this.view.addEventListener('close', this.handleViewClose.bind(this));
     //TODO: ты забыла про это событие (когда жмем на кнопку cancel у нее type reset и срабатывает это событие)
+    //TODO: у кнопки удалить тоже стоит type=reset и по удалении тоже событие reset автоматически посылается
     this.view.addEventListener('reset', this.handleViewReset.bind(this));
   }
 
@@ -100,7 +108,8 @@ export default class NewPointEditorPresenter extends Presenter {
       data.basePrice = this.view.basePriceView.getValue();
       data.offersIds = this.view.offersView.getValues();
 
-      await this.pointsModel.add(data);
+      //await this.pointsModel.add(data);
+      await this.save(data);
 
       this.view.close();
       //this.pointsModel.add()
@@ -117,7 +126,11 @@ export default class NewPointEditorPresenter extends Presenter {
     this.view.awaitSave(false);
   }
 
-  handleViewReset() {
+  /**
+   * @param {Event} event
+   */
+  handleViewReset(event) {
+    void event;
     this.view.close();
   }
 
@@ -183,6 +196,17 @@ export default class NewPointEditorPresenter extends Presenter {
     if (destination) {
       this.view.destinationDetailsView.setContent(destination);
     }
+  }
+
+  //TODO: вынесли отдельно чтобы в наследуемом классе можно было переписать его с add на update
+  /**
+   * @override
+   * @param {PointAdapter} point
+   */
+  async save(point) {
+    //await this.pointsModel.add(data);
+    //debugger
+    await this.pointsModel.add(point);
   }
 
   handleDestinationViewInput() {

@@ -69,3 +69,8 @@ export const saveButtonTextMap = {
   [ButtonState.DEFAULT]: 'Save',
   [ButtonState.PRESSED]: 'Saving...'
 };
+
+export const deleteButtonTextMap = {
+  [ButtonState.DEFAULT]: 'Delete',
+  [ButtonState.PRESSED]: 'Deleting...'
+};

@@ -12,8 +12,11 @@ export default class PointView extends View {
     super(state);
 
     this.classList.add('trip-events__item');
+    this.dataset.id = state.id;
     //и уж потом к разметке мы добавляем верстку с офферами
     this.setOffers(state.offers);
+    //нас интересует контекст самой вьюшки так что не нужно биндить контекст
+    this.addEventListener('click', this.handleClick);
   }
 
   /**
@@ -32,6 +35,18 @@ export default class PointView extends View {
   setOffers(states) {
     const offersHtml = states.map(this.createOfferHtml).join(''); //массив строк с разметкой на выходе который джойним
     this.querySelector('.event__selected-offers').innerHTML = offersHtml;
+  }
+
+  /**
+   * @param {MouseEvent & {target: Element}} event
+   */
+  handleClick(event) {
+    //closest ищет вверх - начиная с себя и уходит на родительские элементы и тоже сюда передается
+    //принимает селектор
+    if(event.target.closest('button.event__rollup-btn')) {
+      //нам надо чтобы оно еще и всплывало
+      this.dispatchEvent(new CustomEvent('edit', {bubbles: true}));
+    }
   }
 
   /**
