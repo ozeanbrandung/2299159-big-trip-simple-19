@@ -15,6 +15,15 @@ export default class ListView extends View {
     //полезные методы из dom api: replaceWith - заменяет элемент на другой элемент, replaceChildren - заменяет чилдренов на другой элемент
     this.replaceChildren(...views);
   }
+
+  /**
+   * @param {string} id
+   */
+  findById(id) {
+    //вдруг data-id есть и у других элементов так что указываем что нам именно тег point-view нужен
+    //и чтобы в случае его переименования тут не надо было чот менять динамически строка получается из класса
+    return this.querySelector(`${PointView}[data-id="${id}"]`);
+  }
 }
 
 customElements.define(String(ListView), ListView);

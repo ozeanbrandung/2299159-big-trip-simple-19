@@ -79,6 +79,7 @@ export default class NewPointEditorView extends View {
     //append (в конец), appendChild, prepend (в начало), before, after
     //this.listView.appendChild(this.view);
     this.datesView.createCalendars();
+    //добавляем в начало списка
     this.listView.prepend(this);
     //мы передаем кароч не функцию а обхект у которого его метод handleEvent метод будет вызван автоматически
     document.addEventListener('keydown', this);

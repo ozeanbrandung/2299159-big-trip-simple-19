@@ -18,6 +18,8 @@ import FilterPresenter from './presenters/filter-presenter';
 import SortPresenter from './presenters/sort-presenter';
 import NewPointButtonPresenter from './presenters/new-point-button-presenter';
 import NewPointEditorPresenter from './presenters/new-point-editor-presenter';
+import PointEditorPresenter from './presenters/point-editor-presenter';
+import PointEditorView from './views/point-editor-view';
 
 const BASE = 'https://19.ecmascript.pages.academy/big-trip-simple';
 const AUTH = 'Basic bTYXX8IbAEP7HEVju1LK';
@@ -62,18 +64,21 @@ const filterView = document.querySelector(String(FilterView));
 const sortView = document.querySelector(String(SortView));
 const newPointButtonView = document.querySelector('.trip-main__event-add-btn');
 const newPointEditorView = new NewPointEditorView(listView);
+//он наследуется от newPointEditorView так что туда закидываем то же самое
+const pointEditorView = new PointEditorView(listView);
 
 Promise.all(
   models.map((model) => model.ready())
 )
   .then(async () => {
     //TODO: при инициировании презентеров порядок имеет роль!
-    new ListPresenter(listView, models);
     new FilterPresenter(filterView, models);
     new SortPresenter(sortView, models);
+    new ListPresenter(listView, models);
     new NewPointButtonPresenter(newPointButtonView, models);
     //TODO: обязательно должен инициализироваться после листа!
     new NewPointEditorPresenter(newPointEditorView, models);
+    new PointEditorPresenter(pointEditorView, models);
     //так мы проверяем работу моделей
     // const logEvent = (event) => log(event.type, event.detail);
     // table(pointsModel.list());
