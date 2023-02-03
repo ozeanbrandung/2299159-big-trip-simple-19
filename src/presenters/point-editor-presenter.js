@@ -54,9 +54,11 @@ export default class PointEditorPresenter extends NewPointEditorPresenter {
       this.view.close();
     }
     catch (exception) {
-      this.view.uiBlockerView.shake();
+      //uiBlockerView - тогда ему и добавится класс shake нам нужно его на вью добавить наш текущий
+      //this.view.uiBlockerView.shake();
+      this.view.shake();
       // eslint-disable-next-line no-console
-      console.log(exception);
+      console.log(exception.stack, exception.cause);
     }
 
     this.view.awaitDelete(false);
