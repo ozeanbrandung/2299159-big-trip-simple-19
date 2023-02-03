@@ -22,7 +22,8 @@ export default class View extends HTMLElement {
 
   shake() {
     this.classList.add('shake');
-    this.addEventListener('animationend', ()=> {
+    //console.log(this, this.classList)
+    this.addEventListener('animationend', () => {
       this.classList.remove('shake');
       //как только событие произойдет один раз, будет автоматически отписка осуществлена от события
     }, {once: true});
