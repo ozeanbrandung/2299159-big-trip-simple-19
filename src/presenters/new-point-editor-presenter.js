@@ -4,15 +4,9 @@ import {PointType} from '../enums';
 import {formatNumber, humanizeDateAndTime} from '../utils';
 //import PointAdapter from '../adapters/point-adapter';
 
-//меняем вот это
-/**,
- * @extends {Presenter<NewPointEditorView>},
- */
 
-//на вот это (делаем дженерик):
 /**
- * @template {NewPointEditorView} View
- * @extends {Presenter<View>}
+ * @extends {Presenter<NewPointEditorView>},
  */
 export default class NewPointEditorPresenter extends Presenter {
   constructor() {
@@ -23,6 +17,8 @@ export default class NewPointEditorPresenter extends Presenter {
       .map(([value, title]) => ({value, title}));
     this.view.pointTypeView.setOptions(pointTypeOptions);
     //this.view.pointTypeView.setValue(PointType.TRAIN);
+    //событие change всплывающее поэтому например нельзя навесить просто на view - будут постоянные перерендеры
+    //то есть тогда отлавливаются все события change вообще
     this.view.pointTypeView.addEventListener('change', this.handlePointTypeViewChange.bind(this));
     //this.view.datesView.addEventListener('change', this.handleDatesViewChange.bind(this));
 
@@ -118,9 +114,18 @@ export default class NewPointEditorPresenter extends Presenter {
       //для этого нам нужно подписаться на событие добавления чего-то в лист
       //await this.pointsModel.add
     } catch (exception) {
-      this.view.uiBlockerView.shake();
+      //не this.uiBlockerView а именно этот вью - на него надо добавить класс shake
+      this.view.shake();
       // eslint-disable-next-line no-console
-      console.log(exception);
+      console.log(exception.stack, exception.cause);
+
+      //тут мы фокусируем поле с ошибкой
+      if (exception.cause?.error) {
+        //мы деструктурируем из списка объектов единственное св-во fieldName в первом объекте этого списка
+        //вообще нам нужно фокусировать в принципе один элемент - первый, в котором ошибка, не можем же все сразу
+        const [{fieldName}] = exception.cause.error;
+        this.view.findByName(fieldName)?.focus();
+      }
     }
 
     this.view.awaitSave(false);

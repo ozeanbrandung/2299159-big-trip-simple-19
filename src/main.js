@@ -20,6 +20,7 @@ import NewPointButtonPresenter from './presenters/new-point-button-presenter';
 import NewPointEditorPresenter from './presenters/new-point-editor-presenter';
 import PointEditorPresenter from './presenters/point-editor-presenter';
 import PointEditorView from './views/point-editor-view';
+import EmptyListPresenter from './presenters/empty-list-presenter';
 
 const BASE = 'https://19.ecmascript.pages.academy/big-trip-simple';
 const AUTH = 'Basic bTYXX8IbAEP7HEVju1LK';
@@ -32,8 +33,8 @@ const pointsStore = new Store(`${BASE}/points`, AUTH);
 const pointsModel = new CollectionModel({
   store: pointsStore,
   adapt: (pointItem) => new PointAdapter(pointItem),
-  filter: filterCallbackMap[FilterType.FUTURE],
-  sort: sortCallbackMap[SortType.PRICE]
+  filter: filterCallbackMap[FilterType.EVERYTHING],
+  sort: sortCallbackMap[SortType.DAY]
 });
 
 /**
@@ -66,6 +67,7 @@ const newPointButtonView = document.querySelector('.trip-main__event-add-btn');
 const newPointEditorView = new NewPointEditorView(listView);
 //он наследуется от newPointEditorView так что туда закидываем то же самое
 const pointEditorView = new PointEditorView(listView);
+const emptyListView = document.querySelector('.trip-events__msg');
 
 Promise.all(
   models.map((model) => model.ready())
@@ -79,6 +81,7 @@ Promise.all(
     //TODO: обязательно должен инициализироваться после листа!
     new NewPointEditorPresenter(newPointEditorView, models);
     new PointEditorPresenter(pointEditorView, models);
+    new EmptyListPresenter(emptyListView, models);
     //так мы проверяем работу моделей
     // const logEvent = (event) => log(event.type, event.detail);
     // table(pointsModel.list());

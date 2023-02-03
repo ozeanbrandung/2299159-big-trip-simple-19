@@ -108,6 +108,14 @@ export default class NewPointEditorView extends View {
   }
 
   /**
+   * @param {string} name
+   */
+  findByName(name) {
+    //через elements можно получать дом нод/ноды у формы по имени или айди
+    return this.querySelector('form').elements[name];
+  }
+
+  /**
    * @param {KeyboardEvent} event
    */
   handleEvent(event) {
