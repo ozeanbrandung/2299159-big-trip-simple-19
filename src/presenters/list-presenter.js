@@ -19,8 +19,11 @@ export default class ListPresenter extends Presenter {
     this.pointsModel.addEventListener('delete', this.handlePointsModeDelete.bind(this));
   }
 
-  updateView() {
-    this.view.setItems(
+  /**
+   * @param {PointAdapter} [targetPoint]
+   */
+  updateView(targetPoint) {
+    const pointViews = this.view.setItems(
       //из базового презентера у нас уже есть доступ ко всем моделям в программе
       //выбираем list потому что он возвращает с учетом сортировки и фильтров
       //map вторым элементом принимает контекст который мы хотим использовать внутри коллбэка
@@ -31,6 +34,16 @@ export default class ListPresenter extends Presenter {
     //const points = this.pointsModel.list()
     //const pointsViewStates = points.map(this.createPointViewState, this)
     //this.view.setItems(pointsViewStates);
+
+    //если редактируем или добавляем или удаляем то анимируем только таргет элемент
+    if (targetPoint) {
+      this.view.findById(targetPoint.id)?.fadeInLeft();
+    } else {
+      //иначе анимируем все например при смене фильтров
+      pointViews.forEach((pointView, idx) => {
+        pointView.fadeInLeft({delay: idx * 100});
+      });
+    }
   }
 
   /**
@@ -78,16 +91,25 @@ export default class ListPresenter extends Presenter {
     this.updateView();
   }
 
-  handlePointsModelAdd() {
-    this.updateView();
+  /**
+   * @param {CustomEvent<PointAdapter>} event
+   */
+  handlePointsModelAdd(event) {
+    this.updateView(event.detail);
   }
 
-  handlePointsModeUpdate() {
-    this.updateView();
+  /**
+   * @param {CustomEvent<{newItem: PointAdapter}>} event
+   */
+  handlePointsModeUpdate(event) {
+    this.updateView(event.detail.newItem);
   }
 
-  handlePointsModeDelete() {
-    this.updateView();
+  /**
+   * @param {CustomEvent<PointAdapter>} event
+   */
+  handlePointsModeDelete(event) {
+    this.updateView(event.detail);
   }
 
   /**
