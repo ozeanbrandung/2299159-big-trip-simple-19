@@ -35,6 +35,6 @@
   "dependencies": {
     "dayjs": "1.11.6",
     "he": "1.2.0",
-    "terser-webpack-plugin": "^5.3.6"
+    "terser-webpack-plugin": "5.3.6"
   }
 }
