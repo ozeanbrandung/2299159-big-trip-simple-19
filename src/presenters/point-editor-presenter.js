@@ -6,22 +6,15 @@ import NewPointEditorPresenter from './new-point-editor-presenter';
 export default class PointEditorPresenter extends NewPointEditorPresenter {
   constructor() {
     super(...arguments);
-    //console.log(this)
   }
 
-  //перезапишем handleNavigation родительский
   /**
    * @override
    */
   handleNavigation() {
-    //без всяких условий сразу вызываем close
-    //потому что может быть открыт только один редактор
-    //так что если что-то уже открыто, то мы все закрываем
     this.view.close(false);
 
     if(this.location.pathname === '/edit') {
-      //this.location возврашает url obj
-      //console.log(this.location)
       const id = this.location.searchParams.get('id');
       const pointData = this.pointsModel.findById(id);
 
@@ -29,7 +22,6 @@ export default class PointEditorPresenter extends NewPointEditorPresenter {
         throw new Error(`Cannot edit point ${id} (it does not exist)`);
       }
 
-      //радактору тоже присваиваем point id
       this.view.dataset.id = id;
       this.view.open();
       this.updateView(pointData);
@@ -44,7 +36,6 @@ export default class PointEditorPresenter extends NewPointEditorPresenter {
     await this.pointsModel.update(point);
   }
 
-  //TODO: у кнопки удалить тоже стоит type=reset и по удалении тоже событие reset автоматически посылается
   /**
    * @override
    * @param {Event} event
@@ -58,15 +49,9 @@ export default class PointEditorPresenter extends NewPointEditorPresenter {
       this.view.close();
     }
     catch (exception) {
-      //uiBlockerView - тогда ему и добавится класс shake нам нужно его на вью добавить наш текущий
-      //this.view.uiBlockerView.shake();
       this.view.shake();
-      // eslint-disable-next-line no-console
-      console.log(exception.stack, exception.cause);
     }
 
     this.view.awaitDelete(false);
   }
 }
-
-//customElements.define(String(PointEditorPresenter), PointEditorPresenter);

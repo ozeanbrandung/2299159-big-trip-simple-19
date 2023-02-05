@@ -27,18 +27,13 @@ export default class Presenter {
 
 
     window.addEventListener('popstate', this.handleWindowPopState.bind(this));
-    //так мы гарантируем что дочерний презентер уже свою работу завершил и можно хэндлить навигацию
     window.requestAnimationFrame(() => this.handleNavigation());
   }
 
-  //чтобы понимать где мы сейчас
   get location() {
-    //объект URL обеспечивает легкий доступ к параметрам
-    //location нам вообще возвращает простую строку
     return new URL(window.location.href);
   }
 
-  //переход от одного адреса к другому
   /**
    * @param {string} path
    * @param {Object<string,string>} params
@@ -59,7 +54,6 @@ export default class Presenter {
     this.handleNavigation();
   }
 
-  //любому презентеру которому нужно рабоать с навизацией просто нужно перезаписать handleNavigation и все
   /**
    * @abstract
    */

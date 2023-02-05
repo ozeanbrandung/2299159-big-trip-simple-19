@@ -1,6 +1,11 @@
 import {escape} from 'he';
 import dayjs from 'dayjs';
-import {DATE_FORMAT_LONG, DATE_FORMAT_SHORT, TIME_FORMAT} from './personal/consts';
+
+const DATE_FORMAT_SHORT = 'D MMM';
+
+const TIME_FORMAT = 'HH:MM';
+
+const DATE_FORMAT_LONG = 'DD/MM/YY';
 
 /**
  * @param {TemplateStringsArray} strings
@@ -12,10 +17,6 @@ export const html = (strings, ...values) => strings.reduce((before, after, index
 
   return before + escape(String(value)) + after;
 });
-
-export const getRandomArrayElement = (items) => items[Math.floor(Math.random() * items.length)];
-
-export const getRandomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
 /**
  * @param {string} value
@@ -29,7 +30,6 @@ export const humanizeTime = (time) => dayjs(time).format(TIME_FORMAT);
 
 export const humanizeDateAndTime = (date) => `${dayjs(date).format(DATE_FORMAT_LONG)} ${dayjs(date).format(TIME_FORMAT)}`;
 
-//отображение чисел в разных языках отличается так что нужно приводить к одному формату если работаешь с несколькими языками
 /**
  * @param {number} value
  */

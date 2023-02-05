@@ -16,7 +16,6 @@ export default class Store {
     this.#auth = auth;
   }
 
-  // /** Enter и описание появится
   /**
    *
    * @param {string} path
@@ -34,10 +33,8 @@ export default class Store {
 
     const {assert, parse} = /** @type {typeof Store} */ (this.constructor);
 
-    //если ошибка то просто остановится приложение и выбросит ошибку
     await assert(response);
 
-    //иначе парсим
     return parse(response);
   }
 
@@ -47,12 +44,10 @@ export default class Store {
   static async assert(response) {
     if (!response.ok) {
       const message = `${response.status}: ${response.statusText}`;
-      //json() асинхронный метод - он возвращает промис
       throw new Error(message, {cause: await response.json()});
     }
   }
 
-  //избыточных промисов не нужно создавать
   /**
    * @param {Response} response
    */
@@ -89,7 +84,6 @@ export default class Store {
    * @return {Promise<Item>}
    */
   update(item) {
-    // @ts-ignore
     return this.request(`/${item.id}`, {
       method: 'put',
       body: JSON.stringify(item)

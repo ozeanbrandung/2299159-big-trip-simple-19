@@ -19,7 +19,6 @@ export default class EmptyListPresenter extends Presenter {
     const points = this.pointsModel.list();
     const filter = this.pointsModel.getFilter();
     const filterType = findKey(filterCallbackMap, filter);
-    //если нажата кнопка new или есть какое-то кол-во точек
     this.view.hidden = Boolean(points.length) || this.location.pathname === '/new';
     this.view.textContent = emptyListTitleMap[filterType];
   }
