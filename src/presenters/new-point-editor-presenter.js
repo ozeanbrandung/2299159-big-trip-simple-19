@@ -35,11 +35,7 @@ export default class NewPointEditorPresenter extends Presenter {
   handleNavigation() {
     if (location.pathname === '/new') {
       const point = this.pointsModel.item();
-      point.destinationId = this.destinationsModel.item(5).id;
       point.type = PointType.TAXI;
-      point.startDate = new Date().toISOString();
-      point.endDate = new Date().toISOString();
-      point.basePrice = 100;
       this.view.open();
       this.updateView(point);
     } else {
@@ -110,7 +106,7 @@ export default class NewPointEditorPresenter extends Presenter {
     const destination = this.destinationsModel.findById(point.destinationId);
     this.view.pointTypeView.setValue(point.type);
     this.view.destinationView.setLabel(pointTitleMap[point.type]);
-    this.view.destinationView.setValue(destination.name);
+    this.view.destinationView.setValue(destination?.name ?? '');
     this.view.datesView.setValues([point.startDate, point.endDate]);
     this.view.basePriceView.setValue(point.basePrice);
     this.updateOffersView(point.offersIds);

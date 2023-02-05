@@ -11,26 +11,6 @@ export default class PointEditorPresenter extends NewPointEditorPresenter {
   /**
    * @override
    */
-  handleNavigation() {
-    this.view.close(false);
-
-    if(this.location.pathname === '/edit') {
-      const id = this.location.searchParams.get('id');
-      const pointData = this.pointsModel.findById(id);
-
-      if (!pointData) {
-        throw new Error(`Cannot edit point ${id} (it does not exist)`);
-      }
-
-      this.view.dataset.id = id;
-      this.view.open();
-      this.updateView(pointData);
-    }
-  }
-
-  /**
-   * @override
-   */
   async save(point) {
     point.id = this.view.dataset.id;
     await this.pointsModel.update(point);
@@ -53,5 +33,25 @@ export default class PointEditorPresenter extends NewPointEditorPresenter {
     }
 
     this.view.awaitDelete(false);
+  }
+
+  /**
+   * @override
+   */
+  handleNavigation() {
+    this.view.close(false);
+
+    if(this.location.pathname === '/edit') {
+      const id = this.location.searchParams.get('id');
+      const pointData = this.pointsModel.findById(id);
+
+      if (!pointData) {
+        throw new Error(`Cannot edit point ${id} (it does not exist)`);
+      }
+
+      this.view.dataset.id = id;
+      this.view.open();
+      this.updateView(pointData);
+    }
   }
 }

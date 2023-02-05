@@ -1,3 +1,8 @@
 .trip-events__item {
   display: block;
 }
+
+.trip-events__item--edit {
+  position: relative;
+  z-index: 1;
+}

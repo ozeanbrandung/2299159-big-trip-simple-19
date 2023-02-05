@@ -1,11 +1,6 @@
 import {escape} from 'he';
 import dayjs from 'dayjs';
-
-const DATE_FORMAT_SHORT = 'D MMM';
-
-const TIME_FORMAT = 'HH:MM';
-
-const DATE_FORMAT_LONG = 'DD/MM/YY';
+import {DATE_AND_TIME_FORMAT, DATE_FORMAT_SHORT, TIME_FORMAT} from './consts';
 
 /**
  * @param {TemplateStringsArray} strings
@@ -28,7 +23,7 @@ export const humanizeDate = (date) => dayjs(date).format(DATE_FORMAT_SHORT);
  */
 export const humanizeTime = (time) => dayjs(time).format(TIME_FORMAT);
 
-export const humanizeDateAndTime = (date) => `${dayjs(date).format(DATE_FORMAT_LONG)} ${dayjs(date).format(TIME_FORMAT)}`;
+export const humanizeDateAndTime = (date) => `${dayjs(date).format(DATE_AND_TIME_FORMAT)}`;
 
 /**
  * @param {number} value

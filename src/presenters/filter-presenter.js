@@ -3,7 +3,7 @@ import {filterCallbackMap, filterTitleMap} from '../maps';
 import {findKey} from '../utils';
 import {FilterType} from '../enums';
 
-/**,
+/**
  * @extends {Presenter<FilterView>},
  */
 export default class FilterPresenter extends Presenter {

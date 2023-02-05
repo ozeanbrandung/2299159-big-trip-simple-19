@@ -28,22 +28,6 @@ export default class PointView extends View {
     `;
   }
 
-  setOffers(states) {
-    const offersHtml = states.map(this.createOfferHtml).join('');
-    if (offersHtml) {
-      this.querySelector('.event__selected-offers').innerHTML = offersHtml;
-    }
-  }
-
-  /**
-   * @param {MouseEvent & {target: Element}} event
-   */
-  handleClick(event) {
-    if(event.target.closest('button.event__rollup-btn')) {
-      this.dispatchEvent(new CustomEvent('edit', {bubbles: true}));
-    }
-  }
-
   /**
    * @param {PointViewState} state
    */
@@ -76,6 +60,22 @@ export default class PointView extends View {
         </button>
       </div>
     `;
+  }
+
+  setOffers(states) {
+    const offersHtml = states.map(this.createOfferHtml).join('');
+    if (offersHtml) {
+      this.querySelector('.event__selected-offers').innerHTML = offersHtml;
+    }
+  }
+
+  /**
+   * @param {MouseEvent & {target: Element}} event
+   */
+  handleClick(event) {
+    if(event.target.closest('button.event__rollup-btn')) {
+      this.dispatchEvent(new CustomEvent('edit', {bubbles: true}));
+    }
   }
 }
 

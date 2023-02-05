@@ -3,7 +3,7 @@ import {sortCallbackMap, sortDisabilityMap, sortTitleMap} from '../maps';
 import {findKey} from '../utils';
 import {SortType} from '../enums';
 
-/**,
+/**
  * @extends {Presenter<SortView>},
  */
 export default class SortPresenter extends Presenter {

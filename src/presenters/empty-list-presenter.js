@@ -2,7 +2,7 @@ import Presenter from './presenter';
 import {findKey} from '../utils';
 import {emptyListTitleMap, filterCallbackMap} from '../maps';
 
-/**,
+/**
  * @extends {Presenter<HTMLParamElement>},
  */
 export default class EmptyListPresenter extends Presenter {

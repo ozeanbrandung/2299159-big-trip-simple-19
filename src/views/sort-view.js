@@ -6,8 +6,7 @@ export default class SortView extends RadioGroupView {
   constructor() {
     super();
 
-    this.classList.add('trip-events__trip-sort');
-    this.classList.add('trip-sort');
+    this.classList.add('trip-events__trip-sort', 'trip-sort');
   }
 
   /**

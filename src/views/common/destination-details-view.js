@@ -5,8 +5,7 @@ export default class DestinationDetailsView extends View {
   constructor() {
     super();
 
-    this.classList.add('event__section');
-    this.classList.add('event__section--destination');
+    this.classList.add('event__section', 'event__section--destination');
   }
 
   /**

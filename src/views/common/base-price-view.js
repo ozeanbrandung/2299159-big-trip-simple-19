@@ -5,8 +5,7 @@ export default class BasePriceView extends View {
   constructor() {
     super();
 
-    this.classList.add('event__field-group');
-    this.classList.add('event__field-group--price');
+    this.classList.add('event__field-group', 'event__field-group--price');
   }
 
   /**

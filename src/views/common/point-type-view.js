@@ -17,19 +17,6 @@ export default class PointTypeView extends RadioGroupView {
   }
 
   /**
-   * @param {string} value
-   */
-  setValue(value) {
-    super.setValue(value);
-    if (pointIconsMap[value]) {
-      /**
-       * @type {HTMLImageElement}
-       */
-      (this.querySelector('.event__type-icon')).src = pointIconsMap[value];
-    }
-  }
-
-  /**
    * @override
    */
   createHtml() {
@@ -70,6 +57,19 @@ export default class PointTypeView extends RadioGroupView {
         </label>
       </div>
     `;
+  }
+
+  /**
+   * @param {string} value
+   */
+  setValue(value) {
+    super.setValue(value);
+    if (pointIconsMap[value]) {
+      /**
+       * @type {HTMLImageElement}
+       */
+      (this.querySelector('.event__type-icon')).src = pointIconsMap[value];
+    }
   }
 
   /**

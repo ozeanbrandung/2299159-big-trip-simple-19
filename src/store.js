@@ -6,7 +6,6 @@ export default class Store {
   #auth;
 
   /**
-   *
    * @param {string} base
    * @param {string} auth
    */
@@ -17,7 +16,6 @@ export default class Store {
   }
 
   /**
-   *
    * @param {string} path
    * @param {RequestInit} options
    * @returns {Promise<void>}

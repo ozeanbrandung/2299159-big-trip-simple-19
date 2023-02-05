@@ -1,5 +1,3 @@
-import './view.css';
-
 export default class View extends HTMLElement {
   constructor() {
     super();

@@ -34,15 +34,6 @@ export default class PointEditorView extends NewPointEditorView {
   }
 
   /**
-   * @param {MouseEvent & {target: Element}} event
-   */
-  handleClick(event) {
-    if (event.target.closest('.event__rollup-btn')) {
-      this.close();
-    }
-  }
-
-  /**
    * @param {boolean} flag
    */
   awaitDelete(flag) {
@@ -60,6 +51,14 @@ export default class PointEditorView extends NewPointEditorView {
     `;
   }
 
+  /**
+   * @param {MouseEvent & {target: Element}} event
+   */
+  handleClick(event) {
+    if (event.target.closest('.event__rollup-btn')) {
+      this.close();
+    }
+  }
 }
 
 customElements.define(String(PointEditorView), PointEditorView);
