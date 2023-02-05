@@ -1,6 +1,11 @@
 import {escape} from 'he';
 import dayjs from 'dayjs';
-import {DATE_FORMAT_LONG, DATE_FORMAT_SHORT, TIME_FORMAT} from './consts';
+
+const DATE_FORMAT_SHORT = 'D MMM';
+
+const TIME_FORMAT = 'HH:MM';
+
+const DATE_FORMAT_LONG = 'DD/MM/YY';
 
 /**
  * @param {TemplateStringsArray} strings
