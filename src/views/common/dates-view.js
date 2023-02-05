@@ -29,7 +29,6 @@ export default class DatesView extends View {
 
     this.classList.add('event__field-group', 'event__field-group--time');
 
-    //3-й аргумент - используем захват событий чтобы быстрее реагировать чем библиотека на нужное нам событие
     this.addEventListener('keydown', this.handleKeydown, true);
   }
 
@@ -65,7 +64,6 @@ export default class DatesView extends View {
    */
   setConfig(config) {
     const defaultConfig = {
-      //allowInput: true,
       enableTime: true,
       monthSelectorType: 'static',
       static: true
@@ -84,16 +82,10 @@ export default class DatesView extends View {
   }
 
   createCalendars() {
-    //const startDateElem = this.querySelector('#event-start-time-1');
-    //const endDateElem = this.querySelector('#event-end-time-1');
-    //к итерируемым объектам даже если это не массивы применима деструктуризация
-    //кстати когда деструктурируем обхект константы дословно должны повторять имена ключей
-    //при деструктуризации массива или списка не имеет значение имя константы имеет значение только очередность
     const [startDateElem, endDateElem] = this.querySelectorAll('input');
 
     this.#startDateCalendar = createCalendar(startDateElem, this.#startDateConfig);
     this.#endDateCalendar = createCalendar(endDateElem, this.#endDateConfig);
-    //this.addEventListener('keydown', this.handleKeydown);
   }
 
   destroyCalenders() {
@@ -106,7 +98,6 @@ export default class DatesView extends View {
    */
   setValues(values) {
     const [startDate, endDate] = values;
-    //вторым аргументом пишем true потому что нам нужно первоначальные данные чтобы тоже триггерили коллюэк который ограничивает выбор
     this.#startDateCalendar.setDate(startDate, true);
     this.#endDateCalendar.setDate(endDate);
   }
@@ -118,16 +109,11 @@ export default class DatesView extends View {
     ];
   }
 
-  // close() {
-  //
-  // }
   /**
    * @param {KeyboardEvent} event
    */
   handleKeydown(event) {
-    //if (event.key === 'Escape' && this.querySelector('.flatpickr-input.active')) {
     if (event.key === 'Escape' && (this.#startDateCalendar.isOpen || this.#endDateCalendar.isOpen)) {
-      //event.stopPropagation();
       event.stopImmediatePropagation();
       this.#startDateCalendar.close();
       this.#endDateCalendar.close();

@@ -76,13 +76,9 @@ export default class NewPointEditorView extends View {
   }
 
   open() {
-    //append (в конец), appendChild, prepend (в начало), before, after
-    //this.listView.appendChild(this.view);
     this.datesView.createCalendars();
-    //добавляем в начало списка
     this.listView.prepend(this);
     this.fadeInRight();
-    //мы передаем кароч не функцию а обхект у которого его метод handleEvent метод будет вызван автоматически
     document.addEventListener('keydown', this);
   }
 
@@ -91,7 +87,6 @@ export default class NewPointEditorView extends View {
     this.datesView.destroyCalenders();
     document.removeEventListener('keydown', this);
     if (notify) {
-      //ты тут this. пропустила и event нихрена не диспачился
       this.dispatchEvent(new CustomEvent('close'));
     }
   }
@@ -101,7 +96,6 @@ export default class NewPointEditorView extends View {
    */
   awaitSave(flag) {
     const text = saveButtonTextMap[Number(flag)];
-    //console.log(text)
 
     this.querySelector('.event__save-btn').textContent = text;
 
@@ -112,7 +106,6 @@ export default class NewPointEditorView extends View {
    * @param {string} name
    */
   findByName(name) {
-    //через elements можно получать дом нод/ноды у формы по имени или айди
     return this.querySelector('form').elements[name];
   }
 
@@ -120,10 +113,8 @@ export default class NewPointEditorView extends View {
    * @param {KeyboardEvent} event
    */
   handleEvent(event) {
-    //console.log('объект в качестве обр события')
     if(event.key === 'Escape') {
       this.close();
-      //this.reset();
     }
   }
 }

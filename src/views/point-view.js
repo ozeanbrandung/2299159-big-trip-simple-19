@@ -7,15 +7,11 @@ export default class PointView extends View {
    * @param {PointViewState} state
    */
   constructor(state) {
-    //в супере вызовется сразу же createHtml который мы тут переписали с нужной нам разметкой
-    //итак, эта разметка появится в dom
     super(state);
 
     this.classList.add('trip-events__item');
     this.dataset.id = state.id;
-    //и уж потом к разметке мы добавляем верстку с офферами
     this.setOffers(state.offers);
-    //нас интересует контекст самой вьюшки так что не нужно биндить контекст
     this.addEventListener('click', this.handleClick);
   }
 
@@ -33,7 +29,7 @@ export default class PointView extends View {
   }
 
   setOffers(states) {
-    const offersHtml = states.map(this.createOfferHtml).join(''); //массив строк с разметкой на выходе который джойним
+    const offersHtml = states.map(this.createOfferHtml).join('');
     if (offersHtml) {
       this.querySelector('.event__selected-offers').innerHTML = offersHtml;
     }
@@ -43,10 +39,7 @@ export default class PointView extends View {
    * @param {MouseEvent & {target: Element}} event
    */
   handleClick(event) {
-    //closest ищет вверх - начиная с себя и уходит на родительские элементы и тоже сюда передается
-    //принимает селектор
     if(event.target.closest('button.event__rollup-btn')) {
-      //нам надо чтобы оно еще и всплывало
       this.dispatchEvent(new CustomEvent('edit', {bubbles: true}));
     }
   }
@@ -77,12 +70,6 @@ export default class PointView extends View {
           <li class="event__offer">
             <span class="event__offer-title">No additional offers</span>
           </li>
-          <!-- ИЗ-ЗА ЭКРАНИРОВАНИЯ МЫ СЮДА НЕ МОЖЕМ ВПИХНУТЬ ЦИКЛ!-->
-<!--          <li class="event__offer">-->
-<!--            <span class="event__offer-title">Order Uber</span>-->
-<!--            &plus;&euro;&nbsp;-->
-<!--            <span class="event__offer-price">20</span>-->
-<!--          </li>-->
         </ul>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>

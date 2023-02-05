@@ -37,7 +37,6 @@ export default class BasePriceView extends View {
   }
 
   getValue() {
-    //TODO: тут можно не приводить типы а использовать вот такой метод!
     return this.querySelector('input').valueAsNumber;
   }
 }

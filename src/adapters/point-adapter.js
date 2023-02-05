@@ -10,16 +10,12 @@ export default class PointAdapter extends Adapter {
     this.basePrice = data.base_price;
     this.startDate = data.date_from;
     this.endDate = data.date_to;
-    this.destinationId = data.destination?.toString(); //String(data.destination)
+    this.destinationId = data.destination?.toString();
     this.id = data.id;
-    //this.offersIds = data.offers.map((offerId) => String(offerId));
-    //эта запись полностью аналогична следующей
-    //если не будет офферов то все что после вопроса просто не вызовется
     this.offersIds = data.offers?.map(String);
     this.type = data.type;
   }
 
-  //если предположим нужно для сортировки дату превратить в число то делаем это тут
   get endDateAsNumber() {
     return Date.parse(this.endDate);
   }

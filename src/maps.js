@@ -7,7 +7,6 @@ export const filterCallbackMap = {
   [FilterType.EVERYTHING]: () => true,
   [FilterType.FUTURE]: (item) => item.endDateAsNumber > Date.now(),
 };
-//если коллбэки для фильтрации возвращают true, значит ничо не фильтруется
 
 export const filterTitleMap = {
   [FilterType.EVERYTHING]: 'Everything',
@@ -29,7 +28,7 @@ export const sortCallbackMap = {
   [SortType.PRICE]: (current, next) => current.basePrice - next.basePrice,
   [SortType.OFFERS]: () => 0
 };
-//если коллбэки для сортировки возвращают 0, значит ничо не сортируется
+
 export const sortTitleMap = {
   [SortType.DAY]: 'Day',
   [SortType.EVENT]: 'Event',
@@ -57,12 +56,6 @@ export const pointTitleMap = {
   [PointType.SIGHTSEEING]: 'Sightseeing',
   [PointType.RESTAURANT]: 'Restaurant'
 };
-
-// export const pointIconsMap = Object.fromEntries(
-//   Object.entries(PointType).map(
-//     ([key, value]) => [value, `img/icons/${value}.png`]
-//   )
-// );
 
 export const pointIconsMap = Object.fromEntries(
   Object.values(PointType).map(

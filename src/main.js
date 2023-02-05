@@ -46,6 +46,7 @@ const destinationsModel = new CollectionModel({
   store: destinationsStore,
   adapt: (destinationItem) => new DestinationAdapter(destinationItem)
 });
+
 /**
  *
  * @type {Store<OfferGroup>}
@@ -58,14 +59,11 @@ const offersGroupModel = new CollectionModel({
 
 const models = [pointsModel, destinationsModel, offersGroupModel];
 
-//const {log /*, table */} = console;
-
 const listView = document.querySelector(String(ListView));
 const filterView = document.querySelector(String(FilterView));
 const sortView = document.querySelector(String(SortView));
 const newPointButtonView = document.querySelector('.trip-main__event-add-btn');
 const newPointEditorView = new NewPointEditorView(listView);
-//он наследуется от newPointEditorView так что туда закидываем то же самое
 const pointEditorView = new PointEditorView(listView);
 const emptyListView = document.querySelector('.trip-events__msg');
 
@@ -73,49 +71,13 @@ Promise.all(
   models.map((model) => model.ready())
 )
   .then(() => {
-    //TODO: при инициировании презентеров порядок имеет роль!
     new FilterPresenter(filterView, models);
     new SortPresenter(sortView, models);
     new ListPresenter(listView, models);
     new NewPointButtonPresenter(newPointButtonView, models);
-    //TODO: обязательно должен инициализироваться после листа!
     new NewPointEditorPresenter(newPointEditorView, models);
     new PointEditorPresenter(pointEditorView, models);
     new EmptyListPresenter(emptyListView, models);
-    //так мы проверяем работу моделей
-    // const logEvent = (event) => log(event.type, event.detail);
-    // table(pointsModel.list());
-    //
-    // pointsModel.addEventListener('add', logEvent);
-    // pointsModel.addEventListener('update', logEvent);
-    // pointsModel.addEventListener('delete', logEvent);
-    //
-    // const item = pointsModel.item();
-    //
-    // item.basePrice = 100;
-    // item.startDate = new Date().toJSON();
-    // item.endDate = item.startDate;
-    // item.destinationId = '1';
-    // item.offersIds = [];
-    // item.type = 'bus';
-    //
-    // const addedItem = await pointsModel.add(item);
-    //
-    // addedItem.basePrice = 200;
-    // addedItem.type = 'taxi';
-    //
-    // await pointsModel.update(addedItem);
-    // await pointsModel.delete(addedItem.id);
-    // log('Points', pointsModel.listAll());
-    // log('points item idx 125', pointsModel.item(256));
-    // log('Points: findBy', pointsModel.findBy('basePrice', 300));
-    // log('Points: findById', pointsModel.findById('0'));
-    // log('Destinations', destinationsModel.listAll());
-    // log('Points: findIndexBy', pointsModel.findIndexBy('basePrice', 300));
-    // log('Points: findIndexById', pointsModel.findIndexById('0'));
-    // log('destinations item idx 1', destinationsModel.item(1));
-    // log('Offer groups', offersGroupModel.listAll());
-    // log('offer groups item without argument', offersGroupModel.item());
   })
   .catch((exception) => {
     emptyListView.textContent = exception;
