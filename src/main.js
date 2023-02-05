@@ -58,7 +58,7 @@ const offersGroupModel = new CollectionModel({
 
 const models = [pointsModel, destinationsModel, offersGroupModel];
 
-const {log /*, table */} = console;
+//const {log /*, table */} = console;
 
 const listView = document.querySelector(String(ListView));
 const filterView = document.querySelector(String(FilterView));
@@ -72,7 +72,7 @@ const emptyListView = document.querySelector('.trip-events__msg');
 Promise.all(
   models.map((model) => model.ready())
 )
-  .then(async () => {
+  .then(() => {
     //TODO: при инициировании презентеров порядок имеет роль!
     new FilterPresenter(filterView, models);
     new SortPresenter(sortView, models);
@@ -117,7 +117,6 @@ Promise.all(
     // log('Offer groups', offersGroupModel.listAll());
     // log('offer groups item without argument', offersGroupModel.item());
   })
-
-  .catch((error) => {
-    log(error);
+  .catch((exception) => {
+    emptyListView.textContent = exception;
   });
