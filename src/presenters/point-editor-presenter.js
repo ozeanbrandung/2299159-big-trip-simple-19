@@ -25,6 +25,10 @@ export default class PointEditorPresenter extends NewPointEditorPresenter {
       const id = this.location.searchParams.get('id');
       const pointData = this.pointsModel.findById(id);
 
+      if (!pointData) {
+        throw new Error(`Cannot edit point ${id} (it does not exist)`);
+      }
+
       //радактору тоже присваиваем point id
       this.view.dataset.id = id;
       this.view.open();
