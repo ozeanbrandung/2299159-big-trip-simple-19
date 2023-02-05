@@ -34,7 +34,9 @@ export default class PointView extends View {
 
   setOffers(states) {
     const offersHtml = states.map(this.createOfferHtml).join(''); //массив строк с разметкой на выходе который джойним
-    this.querySelector('.event__selected-offers').innerHTML = offersHtml;
+    if (offersHtml) {
+      this.querySelector('.event__selected-offers').innerHTML = offersHtml;
+    }
   }
 
   /**
@@ -72,6 +74,9 @@ export default class PointView extends View {
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <ul class="event__selected-offers">
+          <li class="event__offer">
+            <span class="event__offer-title">No additional offers</span>
+          </li>
           <!-- ИЗ-ЗА ЭКРАНИРОВАНИЯ МЫ СЮДА НЕ МОЖЕМ ВПИХНУТЬ ЦИКЛ!-->
 <!--          <li class="event__offer">-->
 <!--            <span class="event__offer-title">Order Uber</span>-->

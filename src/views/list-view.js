@@ -14,10 +14,13 @@ export default class ListView extends View {
 
     //полезные методы из dom api: replaceWith - заменяет элемент на другой элемент, replaceChildren - заменяет чилдренов на другой элемент
     this.replaceChildren(...views);
+    //для анимации
+    return views;
   }
 
   /**
    * @param {string} id
+   * @return {PointView}
    */
   findById(id) {
     //вдруг data-id есть и у других элементов так что указываем что нам именно тег point-view нужен
