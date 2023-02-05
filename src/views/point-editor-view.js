@@ -38,6 +38,7 @@ export default class PointEditorView extends NewPointEditorView {
   close() {
     //возвращаем точку после закрытия редактора
     this.replaceWith(this.pointView);
+    this.pointView?.fadeInLeft();
     this.pointView = null;
 
     super.close(...arguments);
